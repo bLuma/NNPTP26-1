@@ -42,25 +42,25 @@ namespace NNPTPZ1
                 {
                     ComplexNumber ox = GetCoordinate(xmin, ymin, xstep, ystep, i, j);
 
-                    float it = DoNewtonIterationMethod(p, pd, ref ox);
+                    int iterations = DoNewtonIterationMethod(p, pd, ref ox);
                     
                     int rootIndex = FindRoot(roots, ref maxid, ox);
                     
-                    ColorizePixel(bmp, clrs, i, j, it, rootIndex);
+                    ColorizePixel(bmp, clrs, i, j, iterations, rootIndex);
                 }
             }
 
             return maxid;
         }
 
-        private static void ColorizePixel(Bitmap bmp, Color[] clrs, int i, int j, float it, int rootIndex)
+        private static void ColorizePixel(Bitmap bmp, Color[] clrs, int i, int j, int iterations, int rootIndex)
         {
             // colorize pixel according to root number
             Color color = clrs[rootIndex % clrs.Length];
             color = Color.FromArgb(
-                Math.Min(Math.Max(0, color.R - (int)it * 2), 255), 
-                Math.Min(Math.Max(0, color.G - (int)it * 2), 255), 
-                Math.Min(Math.Max(0, color.B - (int)it * 2), 255)
+                Math.Min(Math.Max(0, color.R - iterations * 2), 255), 
+                Math.Min(Math.Max(0, color.G - iterations * 2), 255), 
+                Math.Min(Math.Max(0, color.B - iterations * 2), 255)
                 );
 
             bmp.SetPixel(j, i, color);
